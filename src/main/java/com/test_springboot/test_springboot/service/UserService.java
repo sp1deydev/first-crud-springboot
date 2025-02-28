@@ -21,6 +21,7 @@ public class UserService {
 
         if(userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
+//            throw new RuntimeException("ABC");
         }
 
         user.setUsername(request.getUsername());

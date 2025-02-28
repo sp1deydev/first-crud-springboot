@@ -1,13 +1,14 @@
 package com.test_springboot.test_springboot.dto.request;
 
+import com.test_springboot.test_springboot.exception.ErrorCode;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public class UserCreationRequest {
-    @Size(min = 3, message = "Username must be at least 3 character")
+    @Size(min = 3, message = "INVALID_USERNAME")
     private String username;
-    @Size(min =8, message = "Password must be at least 8 characters")
+    @Size(min = 8, message = "INVALID_PASSWORD")
     private String password;
     private String firstName;
     private String lastName;
