@@ -2,49 +2,57 @@ package com.test_springboot.test_springboot.service;
 
 import com.test_springboot.test_springboot.dto.request.UserCreationRequest;
 import com.test_springboot.test_springboot.dto.request.UserUpdateRequest;
+import com.test_springboot.test_springboot.dto.response.UserResponse;
 import com.test_springboot.test_springboot.entity.User;
 import com.test_springboot.test_springboot.exception.AppException;
 import com.test_springboot.test_springboot.exception.ErrorCode;
+import com.test_springboot.test_springboot.mapper.UserMapper;
 import com.test_springboot.test_springboot.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+
+//de bo autowired khai bao ngay 1 instance
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
     public User createUser(UserCreationRequest request) {
-        User user = new User();
 
         if(userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
 //            throw new RuntimeException("ABC");
         }
+//        EXAMPLE ABOUT BUILDER IN LOMBOK
+//        UserCreationRequest userCreationRequest = UserCreationRequest.builder()
+//                .username("builder")
+//                .password("22222222")
+//                .build();
 
-        user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDob(request.getDob());
-
+        User user = userMapper.toUser(request);
         return userRepository.save(user);
     }
 
     public List<User> getUsers() {
         return userRepository.findAll();
     }
-    public User getUser(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found!"));
+    public UserResponse getUser(String id) {
+        return userMapper.toUserResponse(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User Not Found!")));
     }
     public User updateUser(String userId, UserUpdateRequest request) {
-        User user = getUser(userId);
-        user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDob(request.getDob());
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found!"));
+
+        //mapping roi update vao user vi user la mapping target
+        userMapper.updateUser(user, request);
 
         return userRepository.save(user);
     }

@@ -1,20 +1,18 @@
-package com.test_springboot.test_springboot.dto.request;
+package com.test_springboot.test_springboot.dto.response;
 
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateRequest {
-    @Size(min = 8, message = "INVALID_PASSWORD")
-    String password;
+public class UserResponse {
+    String username;
     String firstName;
     String lastName;
     LocalDate dob;
-
 }

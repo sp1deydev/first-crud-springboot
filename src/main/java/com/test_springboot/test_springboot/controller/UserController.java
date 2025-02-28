@@ -3,6 +3,7 @@ package com.test_springboot.test_springboot.controller;
 import com.test_springboot.test_springboot.dto.request.ApiResponse;
 import com.test_springboot.test_springboot.dto.request.UserCreationRequest;
 import com.test_springboot.test_springboot.dto.request.UserUpdateRequest;
+import com.test_springboot.test_springboot.dto.response.UserResponse;
 import com.test_springboot.test_springboot.entity.User;
 import com.test_springboot.test_springboot.service.UserService;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class UserController {
         return apiResponse;
     }
     @GetMapping("/{userId}")
-    User getUser(@PathVariable String userId) {
+    UserResponse getUser(@PathVariable String userId) {
         return userService.getUser(userId);
     }
 

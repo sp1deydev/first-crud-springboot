@@ -1,5 +1,11 @@
 package com.test_springboot.test_springboot.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ErrorCode {
     TEST(100, "Test", true),
     INVALID_EXCEPTION_KEY(500, "Invalid Exception Key", false),
@@ -10,23 +16,6 @@ public enum ErrorCode {
 
     private int code;
     private String message;
-    private boolean success ;
+    private boolean success;
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    ErrorCode(int code, String message, boolean success) {
-        this.code = code;
-        this.message = message;
-        this.success = success;
-    }
 }
