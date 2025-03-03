@@ -1,4 +1,5 @@
-package com.test_springboot.test_springboot.dto.response;
+package com.test_springboot.test_springboot.dto.request;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,6 +8,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
+public class IntrospectRequest {
     String accessToken;
 }

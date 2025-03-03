@@ -7,13 +7,16 @@ import com.test_springboot.test_springboot.dto.response.UserResponse;
 import com.test_springboot.test_springboot.entity.User;
 import com.test_springboot.test_springboot.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -25,15 +28,23 @@ public class UserController {
 
     @GetMapping
     ApiResponse<List<User>> getUsers() {
-        ApiResponse<List<User>> apiResponse = new ApiResponse<>();
-
-        apiResponse.setCode(200);
-        apiResponse.setResult(userService.getUsers());
-        return apiResponse;
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()
+        ));
+        return ApiResponse.<List<User>>builder()
+                .result(userService.getUsers())
+                .build();
     }
     @GetMapping("/{userId}")
     UserResponse getUser(@PathVariable String userId) {
         return userService.getUser(userId);
+    }
+    @GetMapping("/info")
+    ApiResponse<UserResponse> getInfo() {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getInfo())
+                .build();
     }
 
     @PutMapping("/{userId}")

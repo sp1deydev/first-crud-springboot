@@ -13,6 +13,7 @@ public enum ErrorCode {
     USER_NOT_EXISTED(400, "User Not Existed", false),
     INVALID_USERNAME(400, "Username must be at lease 3 character", false),
     INVALID_PASSWORD(400, "Password must be at lease 8 character", false),
+    UNAUTHENTICATED(401, "Unauthenticated", false),
     ;
 
     private int code;
