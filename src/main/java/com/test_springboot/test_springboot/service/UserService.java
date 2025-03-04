@@ -8,6 +8,7 @@ import com.test_springboot.test_springboot.enums.Role;
 import com.test_springboot.test_springboot.exception.AppException;
 import com.test_springboot.test_springboot.exception.ErrorCode;
 import com.test_springboot.test_springboot.mapper.UserMapper;
+import com.test_springboot.test_springboot.repository.RoleRepository;
 import com.test_springboot.test_springboot.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 //de bo autowired khai bao ngay 1 instance
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -50,7 +51,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+//        user.setRoles(roles);
         return userRepository.save(user);
     }
     @PreAuthorize("hasRole('ADMIN')") //kiem tra truoc khi vao method
@@ -73,9 +74,12 @@ public class UserService {
     }
     public User updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found!"));
-
         //mapping roi update vao user vi user la mapping target
         userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
 
         return userRepository.save(user);
     }
