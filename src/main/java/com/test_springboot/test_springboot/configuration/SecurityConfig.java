@@ -26,11 +26,12 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    public static final String[] PUBLIC_POST_ENDPOITS = {
+    public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/users",
             "/auth/access-token",
             "/auth/introspect",
             "/auth/logout",
+            "/auth/refresh-token",
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/users",
@@ -44,7 +45,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOITS).permitAll()
+                        request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
 //                                .requestMatchers(HttpMethod.GET, ADMIN_GET_ENDPOINTS)
 ////                                .hasAuthority("ROLE_ADMIN")
 //                                .hasRole(Role.ADMIN.name())

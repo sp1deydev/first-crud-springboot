@@ -16,3 +16,5 @@ spring:
 
 jwt:
   secret-key: "test_spring_boot_test_secret_key"
+  access-token-exp: 20 #seconds
+  refresh-token-exp: 120 #seconds

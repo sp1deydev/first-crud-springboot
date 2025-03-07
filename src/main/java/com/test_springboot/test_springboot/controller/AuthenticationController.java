@@ -1,9 +1,6 @@
 package com.test_springboot.test_springboot.controller;
 import com.nimbusds.jose.JOSEException;
-import com.test_springboot.test_springboot.dto.request.ApiResponse;
-import com.test_springboot.test_springboot.dto.request.AuthenticationRequest;
-import com.test_springboot.test_springboot.dto.request.IntrospectRequest;
-import com.test_springboot.test_springboot.dto.request.LogoutRequest;
+import com.test_springboot.test_springboot.dto.request.*;
 import com.test_springboot.test_springboot.dto.response.AuthenticationResponse;
 import com.test_springboot.test_springboot.dto.response.IntrospectResponse;
 import com.test_springboot.test_springboot.service.AuthenticationService;
@@ -46,6 +43,13 @@ public class AuthenticationController {
         authenticationService.logout(request);
         return ApiResponse.<Void>builder()
 //                .result(result)
+                .build();
+    }
+    @PostMapping("/refresh-token")
+    ApiResponse<AuthenticationResponse> introspect(@RequestBody RefreshRequest request) throws ParseException, JOSEException  {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
                 .build();
     }
 }
