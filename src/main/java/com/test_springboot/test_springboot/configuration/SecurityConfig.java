@@ -29,14 +29,12 @@ public class SecurityConfig {
     public static final String[] PUBLIC_POST_ENDPOITS = {
             "/users",
             "/auth/access-token",
-            "/auth/introspect ",
+            "/auth/introspect",
             "/auth/logout",
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/users",
     };
-    @Value("${jwt.secret-key}")
-    private String secretKey;
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
