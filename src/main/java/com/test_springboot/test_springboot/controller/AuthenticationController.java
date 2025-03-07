@@ -3,6 +3,7 @@ import com.nimbusds.jose.JOSEException;
 import com.test_springboot.test_springboot.dto.request.ApiResponse;
 import com.test_springboot.test_springboot.dto.request.AuthenticationRequest;
 import com.test_springboot.test_springboot.dto.request.IntrospectRequest;
+import com.test_springboot.test_springboot.dto.request.LogoutRequest;
 import com.test_springboot.test_springboot.dto.response.AuthenticationResponse;
 import com.test_springboot.test_springboot.dto.response.IntrospectResponse;
 import com.test_springboot.test_springboot.service.AuthenticationService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,6 +39,13 @@ public class AuthenticationController {
         IntrospectResponse result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+    @PostMapping("/logout")
+    ApiResponse<Void> introspect(@RequestBody LogoutRequest request) throws ParseException, JOSEException  {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
+//                .result(result)
                 .build();
     }
 }
