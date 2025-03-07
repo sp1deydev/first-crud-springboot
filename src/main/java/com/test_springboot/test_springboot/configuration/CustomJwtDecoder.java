@@ -41,15 +41,14 @@ public class CustomJwtDecoder implements JwtDecoder {
         } catch (JOSEException | ParseException e) {
             throw new JwtException(e.getMessage());
         }
-
+        log.info("nimbus: {}", nimbusJwtDecoder);
         if (Objects.isNull(nimbusJwtDecoder)) {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HS512");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HS256");
             nimbusJwtDecoder = NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                    .macAlgorithm(MacAlgorithm.HS512)
+                    .macAlgorithm(MacAlgorithm.HS256)
                     .build();
-            log.info("decode: {}", nimbusJwtDecoder.decode(token));
+            log.info("nimbus inside: {}", nimbusJwtDecoder);
         }
-
         return nimbusJwtDecoder.decode(token);
     }
 }

@@ -36,6 +36,7 @@ public class SecurityConfig {
             "/users",
     };
 
+
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
