@@ -63,6 +63,7 @@ public class UserService {
         return userMapper.toListUserResponse(userRepository.findAll());
     }
     @PostAuthorize("returnObject.username == authentication.name") //thuc hien xong ham roi moi kiem tra
+    @Cacheable(value = "user", key = "#id")
     public UserResponse getUser(String id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User Not Found!")));

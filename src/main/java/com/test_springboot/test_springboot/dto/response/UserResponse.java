@@ -14,6 +14,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse implements Serializable {
+    String id;
     String username;
     String firstName;
     String lastName;
