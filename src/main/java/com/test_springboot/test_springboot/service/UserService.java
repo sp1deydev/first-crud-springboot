@@ -14,11 +14,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -54,10 +56,11 @@ public class UserService {
 //        user.setRoles(roles);
         return userRepository.save(user);
     }
-    @PreAuthorize("hasRole('ADMIN')") //kiem tra truoc khi vao method
-    public List<User> getUsers() {
+    @PreAuthorize("hasRole('ADMIN')")
+    @Cacheable(value = "users")//kiem tra truoc khi vao method
+    public List<UserResponse> getUsers() {
         log.info("In method get Users");
-        return userRepository.findAll();
+        return userMapper.toListUserResponse(userRepository.findAll());
     }
     @PostAuthorize("returnObject.username == authentication.name") //thuc hien xong ham roi moi kiem tra
     public UserResponse getUser(String id) {

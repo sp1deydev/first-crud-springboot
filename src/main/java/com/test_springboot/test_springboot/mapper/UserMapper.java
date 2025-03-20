@@ -8,10 +8,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     //nhan vao request la UserCreationRequest tra ve User ghi get set gia tri
     User toUser(UserCreationRequest request);
+    List<UserResponse> toListUserResponse(List<User> users);
 
     @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest userUpdateRequest);

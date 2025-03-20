@@ -3,7 +3,6 @@ server:
   servlet:
     context-path: /demo
 
-
 spring:
     datasource:
       url: "jdbc:mysql://localhost:3306/demo"
@@ -13,8 +12,11 @@ spring:
       hibernate:
         ddl-auto: update
       show-sql: true
+    redis:
+      host: localhost
+      port: 6379
 
 jwt:
   secret-key: "test_spring_boot_test_secret_key"
-  access-token-exp: 20 #seconds
-  refresh-token-exp: 120 #seconds
+  access-token-exp: 6000 #seconds
+  refresh-token-exp: 60000 #seconds

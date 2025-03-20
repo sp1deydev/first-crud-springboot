@@ -1,9 +1,11 @@
 package com.test_springboot.test_springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
@@ -23,6 +25,7 @@ public class User {
     String lastName;
     LocalDate dob;
 
+    @JsonIgnore
     @ManyToMany
     Set<Role> roles;
 }
